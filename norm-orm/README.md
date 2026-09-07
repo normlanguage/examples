@@ -5,5 +5,5 @@
 `orm.Entity`、`orm.Id` 与 `orm.Generated` 在 JVM 应用边界成为真实 Jakarta Persistence Annotation。应用实体仍是普通 Norm class，数据库生成的主键会同步回同一个 Norm 对象。
 
 ```text
-norm run docs/examples/norm-orm/app/sample/orm/Main.norm
+norm run norm-orm/app/sample/orm/Main.norm
 ```

@@ -1,12 +1,14 @@
-# Norm examples
+# Norm 集成验收
 
-[English](README.md)
+[English](README.md) | [简体中文](README.zh-CN.md)
 
-独立的 Norm 应用示例，使用正式发布的 CLI 和 NAR，不构建或引用编译器源码。
+面向用户的示例位于各库仓库：
 
-- [单文件 Web](micronaut-single-file/README.zh-CN.md)
-- [Micronaut BBS](micronaut-bbs/README.zh-CN.md)
-- [ORM](norm-orm/README.zh-CN.md)
-- [Java 互操作](java-commons-lang/README.zh-CN.md)
+- [Micronaut Web 示例](https://github.com/normlanguage/micronaut-web/blob/main/samples/README.zh-CN.md)
+- [ORM 示例](https://github.com/normlanguage/orm/blob/main/samples/README.zh-CN.md)
+- [Commons Lang 示例](https://github.com/normlanguage/commons-lang/blob/main/samples/README.zh-CN.md)
+- [Norm 的 `hello` 程序](https://github.com/normlanguage/Norm/blob/main/cli/compiler/src/main/resources/hello/README.zh-CN.md)
 
-要求 Norm 0.21.2 或更新版本。应用验收入口：`node scripts/verify.mjs`。Native Web/数据库验收：`node scripts/verify.mjs --native`。可用 `NORM_CLI` 指定编译器可执行文件。
+本仓库保留独立集成验收用例：[单文件 Web](micronaut-single-file/README.zh-CN.md)、[BBS](micronaut-bbs/README.zh-CN.md)、[ORM](norm-orm/README.zh-CN.md)和[Java 互操作](java-commons-lang/README.zh-CN.md)。[验收脚本](scripts/verify.mjs)是统一执行入口；Native 模式还验证 HTTP、参数校验、数据库提交、读取和回滚。这些用例使用各自模块文件声明的较早公开软件包，在当前工具链的库自有示例发布前保留为回归证据。
+
+使用匹配的正式 Norm CLI 执行 `node scripts/verify.mjs` 或 `node scripts/verify.mjs --native`。可通过 `NORM_CLI` 指定 CLI。[工作流](.github/workflows/verify.yml)保留两项检查。

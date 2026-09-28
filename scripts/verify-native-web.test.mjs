@@ -9,7 +9,7 @@ test('preserves the failed build directory and original failure for reproduction
   const failure = new Error('fixture build failure');
   let directory;
   t.after(() => { if (directory) rmSync(directory, { recursive: true, force: true }); });
-  await assert.rejects(verifyNativeWeb(repository, (args, expected, cwd) => {
+  await assert.rejects(verifyNativeWeb(repository, (args, cwd) => {
     directory = cwd;
     assert.ok(readFileSync(args[1], 'utf8').includes('native-verification'));
     writeFileSync(resolve(directory, 'failure-artifact'), 'reproduce-me');

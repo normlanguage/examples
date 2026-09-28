@@ -8,14 +8,14 @@ const cli = process.env.NORM_CLI ?? 'norm';
 if (process.argv.includes('--native')) {
   await verifyNativeWeb(root, run);
 } else {
-  run(['test', resolve(root, 'micronaut-bbs/app/sample/bbs/application.norm')]);
-  run(['test', resolve(root, 'micronaut-single-file/web.norm')]);
+  run(['check', resolve(root, 'micronaut-bbs/app/sample/bbs/application.norm')]);
+  run(['check', resolve(root, 'micronaut-single-file/web.norm')]);
   run(['run', resolve(root, 'norm-orm/app/sample/orm/Main.norm')]);
   run(['run', resolve(root, 'java-commons-lang/app/Main.norm')]);
   run(['run', resolve(root, 'java-commons-lang/object/app/Main.norm')]);
 }
 
-function run(args, expected, cwd = root) {
+function run(args, cwd = root) {
   const script = process.platform === 'win32' && /\.(bat|cmd)$/i.test(cli);
   const result = spawnSync(script ? process.env.ComSpec : cli,
     script ? ['/d', '/c', 'call', cli, ...args] : args,

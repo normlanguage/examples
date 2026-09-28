@@ -22,9 +22,9 @@ import std.core.Result
 Module module() {
   return module(
     dependencies: [
-      dependency(repository: "github", name: "micronaut.web"),
-      dependency(repository: "github", name: "orm.micronaut.tx"),
-      dependency(repository: "github", name: "h2.database")
+      dependency(repository: "github", name: "micronaut.web", version: 9),
+      dependency(repository: "github", name: "orm.micronaut.tx", version: 5),
+      dependency(repository: "github", name: "h2.database", version: 2)
     ]
   )
 }

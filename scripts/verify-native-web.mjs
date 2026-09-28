@@ -1,4 +1,5 @@
-import { cpSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { cp } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { resolve } from 'node:path';
 import { spawn } from 'node:child_process';
@@ -23,14 +24,14 @@ export async function verifyNativeWeb(repository, build, measure) {
       + 'import micronaut.validation.Validated\nimport jakarta.validation.constraints.NotBlank\n'
       + example.replace(configuration,
         `${configuration}\nmicronaut: Micronaut(server: Server(port: 0)),`) + '\n' + verification);
-    const buildOutput = build(['build', source, '--diagnostics'], undefined, directory);
+    const buildOutput = build(['build', source, '--diagnostics'], directory);
     const executable = process.platform === 'win32' ? `${source}.exe` : resolve(directory, 'web');
     const reports = [...buildOutput.matchAll(/Build report: ([^\r\n]+)/g)];
     if (reports.length !== 1) throw new Error('Expected one native build report');
     const evidenceRoot = resolve(repository, 'build/reports/native');
     mkdirSync(evidenceRoot, { recursive: true });
     const evidenceDirectory = mkdtempSync(resolve(evidenceRoot, 'web-'));
-    cpSync(reports[0][1], evidenceDirectory, { recursive: true });
+    await cp(reports[0][1], evidenceDirectory, { recursive: true, dereference: true });
     const size = JSON.parse(readFileSync(resolve(evidenceDirectory, 'size.json'), 'utf8'));
     if (size.sha256 !== createHash('sha256').update(readFileSync(executable)).digest('hex')) throw new Error('Executable digest mismatch');
     const evidence = { directory: evidenceDirectory, size };

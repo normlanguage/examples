@@ -6,15 +6,17 @@ export function observeProcess(child, readiness, timeoutMs) {
     const timer = setTimeout(() => {
       reject(new Error(`Process startup timed out\n${diagnostics()}`));
     }, timeoutMs);
-    child.stdout.setEncoding('utf8').on('data', chunk => {
-      output += chunk;
-      const match = output.match(readiness);
-      if (match) {
-        clearTimeout(timer);
-        resolve(match);
-      }
-    });
-    child.stderr.setEncoding('utf8').on('data', chunk => { errors += chunk; });
+    for (const [channel, stream] of [['stdout', child.stdout], ['stderr', child.stderr]]) {
+      stream.setEncoding('utf8').on('data', chunk => {
+        if (channel === 'stdout') output += chunk;
+        else errors += chunk;
+        const match = (channel === 'stdout' ? output : errors).match(readiness);
+        if (match) {
+          clearTimeout(timer);
+          resolve(match);
+        }
+      });
+    }
     child.once('error', error => {
       clearTimeout(timer);
       reject(error);

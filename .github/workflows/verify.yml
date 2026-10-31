@@ -19,6 +19,8 @@ jobs:
           version: 0.27.23
       - name: Verify package behavior
         run: node scripts/verify.mjs
+      - name: Verify process observation
+        run: node --test scripts/observe-process.test.mjs scripts/verify-native-web.test.mjs
 
       - name: Verify native applications
         if: github.event_name == 'workflow_dispatch'

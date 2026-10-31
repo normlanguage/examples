@@ -26,7 +26,7 @@ export async function verifyNativeWeb(repository, build, measure) {
         `${configuration}\nmicronaut: Micronaut(server: Server(port: 0)),`) + '\n' + verification);
     const buildOutput = build(['build', source, '--diagnostics'], directory);
     const executable = process.platform === 'win32' ? `${source}.exe` : resolve(directory, 'web');
-    const reports = [...buildOutput.matchAll(/Build report: ([^\r\n]+)/g)];
+    const reports = [...buildOutput.stderr.matchAll(/Build report: ([^\r\n]+)/g)];
     if (reports.length !== 1) throw new Error('Expected one native build report');
     const evidenceRoot = resolve(repository, 'build/reports/native');
     mkdirSync(evidenceRoot, { recursive: true });

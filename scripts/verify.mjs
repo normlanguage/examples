@@ -1,6 +1,5 @@
-import assert from 'node:assert/strict';
-import { spawnSync } from 'node:child_process';
 import { resolve } from 'node:path';
+import { runCommand } from './command.mjs';
 import { verifyNativeWeb } from './verify-native-web.mjs';
 
 const root = resolve(import.meta.dirname, '..');
@@ -16,12 +15,5 @@ if (process.argv.includes('--native')) {
 }
 
 function run(args, cwd = root) {
-  const script = process.platform === 'win32' && /\.(bat|cmd)$/i.test(cli);
-  const result = spawnSync(script ? process.env.ComSpec : cli,
-    script ? ['/d', '/c', 'call', cli, ...args] : args,
-    { cwd, encoding: 'utf8', timeout: 1200000, windowsHide: true });
-  if (result.error) throw result.error;
-  assert.equal(result.status, 0, result.stderr + result.stdout);
-  console.log(result.stdout);
-  return result.stdout;
+  return runCommand(args, cwd, cli);
 }

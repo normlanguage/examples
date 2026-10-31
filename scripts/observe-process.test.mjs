@@ -29,6 +29,18 @@ test('recognizes fragmented readiness and retains later diagnostics', async () =
   assert.match(observed.diagnostics(), /after readiness/);
 });
 
+test('recognizes fragmented structured readiness on stderr', async () => {
+  const child = spawn(process.execPath, ['-e',
+    'process.stderr.write("123 [INFO] service REA"); setTimeout(() => { process.stderr.write("DY http://127.0.0.1:1234\\n"); process.stdout.write("program output\\n"); }, 20);'],
+    { windowsHide: true });
+  const closed = once(child, 'close');
+  const observed = observeProcess(child, /READY (http:\/\/127\.0\.0\.1:\d+)\n/, 5000);
+  assert.equal((await observed.ready)[1], 'http://127.0.0.1:1234');
+  await closed;
+  assert.match(observed.diagnostics(), /program output/);
+  assert.match(observed.diagnostics(), /123 \[INFO\] service READY/);
+});
+
 test('timeout reports captured output and leaves process ownership with caller', async () => {
   const child = spawn(process.execPath, ['-e', 'console.log("booting"); setInterval(() => {}, 1000);'],
     { windowsHide: true });

@@ -16,7 +16,7 @@ jobs:
           node-version: '24'
       - uses: normlanguage/registry/.github/actions/setup-norm@90b4d247fa4f5f2b620924d2cbc0553e89843700
         with:
-          version: 0.27.23
+          version: 0.27.26
       - name: Verify package behavior
         run: node scripts/verify.mjs
       - name: Verify process observation

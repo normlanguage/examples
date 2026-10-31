@@ -4,9 +4,9 @@ Module module() {
     version: 1,
     exports: ["Main"],
     dependencies: [
-      dependency(repository: "github", name: "orm", version: 3),
-      dependency(repository: "github", name: "orm.hibernate", version: 4),
-      dependency(repository: "github", name: "h2.database", version: 2)
+      dependency(repository: "github", name: "orm", version: 7),
+      dependency(repository: "github", name: "orm.hibernate", version: 8),
+      dependency(repository: "github", name: "h2.database", version: 3)
     ]
   )
 }

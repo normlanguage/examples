@@ -5,7 +5,6 @@ import micronaut.inject.context.annotation.Prototype
 import orm.Repository
 import orm.RepositoryContext
 import sample.bbs.ReplyEntity
-import std.collections.MutableList
 
 @Prototype()
 public class ReplyRepository extends Repository<ReplyEntity, Long> {
@@ -14,7 +13,7 @@ public class ReplyRepository extends Repository<ReplyEntity, Long> {
     super(context)
   }
 
-  public MutableList<ReplyEntity?>? findByTopic(Long topicId) {
+  public List<ReplyEntity?>? findByTopic(Long topicId) {
     return this.findWhereOrdered<Long, Long?>(
       field: ReplyEntity.topicId.field,
       value: topicId,

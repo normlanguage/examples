@@ -9,8 +9,8 @@ import micronaut.web.MicronautConfig
 import micronaut.web.SchemaMode
 import orm.Column
 import orm.Entity
-import orm.Generated
-import orm.GenerationStrategy
+import orm.GeneratedValue
+import orm.GenerationType
 import orm.Id
 import orm.Repository
 import orm.RepositoryContext
@@ -22,9 +22,9 @@ import std.core.Result
 Module module() {
   return module(
     dependencies: [
-      dependency(repository: "github", name: "micronaut.web", version: 9),
-      dependency(repository: "github", name: "orm.micronaut.tx", version: 5),
-      dependency(repository: "github", name: "h2.database", version: 2)
+      dependency(repository: "github", name: "micronaut.web", version: 11),
+      dependency(repository: "github", name: "orm.micronaut.tx", version: 11),
+      dependency(repository: "github", name: "h2.database", version: 3)
     ]
   )
 }
@@ -35,7 +35,7 @@ class HelloEntity {
   String name
 
   @Id()
-  @Generated(strategy: GenerationStrategy.IDENTITY)
+  @GeneratedValue(strategy: GenerationType.IDENTITY)
   Long? id = null
 
   HelloEntity(String name) {

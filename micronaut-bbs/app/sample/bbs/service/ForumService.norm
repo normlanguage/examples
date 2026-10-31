@@ -12,7 +12,6 @@ import sample.bbs.TopicSort
 import sample.bbs.repository.BoardRepository
 import sample.bbs.repository.ReplyRepository
 import sample.bbs.repository.TopicRepository
-import std.collections.MutableList
 
 @Prototype()
 public class ForumService {
@@ -54,7 +53,7 @@ public class ForumService {
   }
 
   @Transactional()
-  public MutableList<BoardEntity?>? allBoards() {
+  public List<BoardEntity?>? allBoards() {
     return boards.findAll()
   }
 
@@ -64,7 +63,7 @@ public class ForumService {
   }
 
   @Transactional()
-  public MutableList<ReplyEntity?>? repliesForTopic(Long topicId) {
+  public List<ReplyEntity?>? repliesForTopic(Long topicId) {
     return replies.findByTopic(topicId)
   }
 
